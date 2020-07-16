@@ -21,5 +21,4 @@ func TestMailSender_Send(t *testing.T) {
 	} else {
 		fmt.Println(send)
 	}
-
 }
