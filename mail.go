@@ -51,7 +51,7 @@ func NewMailConfig(host string, port int, username, password string, tls bool) M
 	}
 }
 
-func NewMailSender(mailConfig MailConfig, to []MailReceiver, cc []MailReceiver, mails []MailMessage, attachs []string) *MailSender {
+func NewMailSender(mailConfig MailConfig, to []MailReceiver, cc []MailReceiver, mails []MailMessage) *MailSender {
 	return &MailSender{
 		Receivers:  to,
 		Cc:         cc,

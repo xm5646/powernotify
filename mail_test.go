@@ -13,7 +13,7 @@ func TestMailSender_Send(t *testing.T) {
 	mail := NewMailMessage("测试邮件通知", "<html><body><h1>hello</h1></body></html>", HtmlType, nil)
 	mails = append(mails, mail)
 	mailConfig := NewMailConfig("smtp.qq.com", 465, "530107801@qq.com", "授权码或密码", true)
-	sender := NewMailSender(mailConfig, receivers, nil, mails, nil)
+	sender := NewMailSender(mailConfig, receivers, nil, mails)
 	send, err := sender.Send()
 	if err != nil {
 		fmt.Printf("has error:%s", err.Error())
