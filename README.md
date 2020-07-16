@@ -33,12 +33,6 @@ go get github.com/xm5646/powernotify
 
 `邮件通知`:
 
-    package powernotify
-    import (
-        "fmt"
-        "testing"
-    )
-    
     func TestMailSender_Send(t *testing.T) {
         receivers := make([]MailReceiver, 0, 1)
         re1 := NewMailReceiver("lixiaoming", "lixmsucc@163.com")
