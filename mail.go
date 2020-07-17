@@ -51,6 +51,25 @@ func NewMailConfig(host string, port int, username, password string, tls bool) M
 	}
 }
 
+// receiver and cc was only have mail address
+func NewMailSenderDefault(mailConfig MailConfig, receivers []string, Ccs []string, mails []MailMessage) *MailSender {
+	to := make([]MailReceiver, 0, 1)
+	for _, receiver := range receivers {
+		to = append(to, NewMailReceiver("", receiver))
+	}
+	cc := make([]MailReceiver, 0, 1)
+	for _, s := range Ccs {
+		cc = append(cc, NewMailReceiver("", s))
+	}
+	return &MailSender{
+		Receivers:  to,
+		Cc:         cc,
+		Mails:      mails,
+		MailConfig: mailConfig,
+	}
+}
+
+// receiver and cc have name and address.
 func NewMailSender(mailConfig MailConfig, to []MailReceiver, cc []MailReceiver, mails []MailMessage) *MailSender {
 	return &MailSender{
 		Receivers:  to,
