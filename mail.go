@@ -79,6 +79,40 @@ func NewMailSender(mailConfig MailConfig, to []MailReceiver, cc []MailReceiver, 
 	}
 }
 
+func (m *MailSender) LoadConfig(config MailConfig) *MailSender {
+	m.Host = config.Host
+	m.Port = config.Port
+	m.Username = config.Username
+	m.Password = config.Password
+	m.TLSSecure = config.TLSSecure
+	return m
+}
+
+func (m *MailSender) AddReceivers(receivers []string) *MailSender {
+	mailReceivers := m.Receivers
+	for _, receiver := range receivers {
+		mailReceivers = append(mailReceivers, NewMailReceiver("", receiver))
+	}
+	m.Receivers = mailReceivers
+	return m
+}
+
+func (m *MailSender) AddCcs(Ccs []string) *MailSender {
+	cc := m.Cc
+	for _, s := range Ccs {
+		cc = append(cc, NewMailReceiver("", s))
+	}
+	m.Cc = cc
+	return m
+}
+
+func (m *MailSender) AddMail(message MailMessage) *MailSender {
+	mails := m.Mails
+	mails = append(mails, message)
+	m.Mails = mails
+	return m
+}
+
 // Sending multiple emails, return number of success send, and if has error.
 func (m *MailSender) Send() (int, error) {
 	if len(m.Mails) > 0 && m.Mails != nil {
