@@ -6,14 +6,13 @@ import (
 )
 
 func TestMailSender_Send(t *testing.T) {
-	receivers := make([]MailReceiver, 0, 1)
-	re1 := NewMailReceiver("lixiaoming", "lixmsucc@163.com")
-	receivers = append(receivers, re1)
-	mails := make([]MailMessage, 0, 1)
+	mailReceiver := NewMailReceiver("lixiaoming", "lixmsucc@163.com")
+	receiver := "lixiaoming@qq.com"
+	cc := "xxx@qq.com"
 	mail := NewMailMessage("测试邮件通知", "<html><body><h1>hello</h1></body></html>", HtmlType, nil)
-	mails = append(mails, mail)
-	mailConfig := NewMailConfig("smtp.qq.com", 465, "530107801@qq.com", "授权码或密码", true)
-	sender := NewMailSender(mailConfig, receivers, nil, mails)
+	sender := &MailSender{}
+	sender = sender.LoadConfig(NewMailConfig("smtp.qq.com", 465, "530107801@qq.com", "授权码或密码", true))
+	sender = sender.AddReceiver(receiver).AddMailReceiver(mailReceiver).AddMail(mail).AddCc(cc)
 	send, err := sender.Send()
 	if err != nil {
 		fmt.Printf("has error:%s", err.Error())

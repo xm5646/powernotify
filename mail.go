@@ -88,8 +88,21 @@ func (m *MailSender) LoadConfig(config MailConfig) *MailSender {
 	return m
 }
 
+func (m *MailSender) AddReceiver(receiver string) *MailSender {
+	mailReceivers := m.Receivers
+	if mailReceivers == nil {
+		mailReceivers = make([]MailReceiver, 0, 1)
+	}
+	mailReceivers = append(mailReceivers, NewMailReceiver("", receiver))
+	m.Receivers = mailReceivers
+	return m
+}
+
 func (m *MailSender) AddReceivers(receivers []string) *MailSender {
 	mailReceivers := m.Receivers
+	if mailReceivers == nil {
+		mailReceivers = make([]MailReceiver, 0, 1)
+	}
 	for _, receiver := range receivers {
 		mailReceivers = append(mailReceivers, NewMailReceiver("", receiver))
 	}
@@ -97,8 +110,41 @@ func (m *MailSender) AddReceivers(receivers []string) *MailSender {
 	return m
 }
 
+func (m *MailSender) AddMailReceiver(receiver MailReceiver) *MailSender {
+	mailReceivers := m.Receivers
+	if mailReceivers == nil {
+		mailReceivers = make([]MailReceiver, 0, 1)
+	}
+	mailReceivers = append(mailReceivers, receiver)
+	m.Receivers = mailReceivers
+	return m
+}
+
+func (m *MailSender) AddMailReceivers(receivers []MailReceiver) *MailSender {
+	mailReceivers := m.Receivers
+	if mailReceivers == nil {
+		mailReceivers = make([]MailReceiver, 0, 1)
+	}
+	mailReceivers = append(mailReceivers, receivers...)
+	m.Receivers = mailReceivers
+	return m
+}
+
+func (m *MailSender) AddCc(Cc string) *MailSender {
+	cc := m.Cc
+	if cc == nil {
+		cc = make([]MailReceiver, 0, 1)
+	}
+	cc = append(cc, NewMailReceiver("", Cc))
+	m.Cc = cc
+	return m
+}
+
 func (m *MailSender) AddCcs(Ccs []string) *MailSender {
 	cc := m.Cc
+	if cc == nil {
+		cc = make([]MailReceiver, 0, 1)
+	}
 	for _, s := range Ccs {
 		cc = append(cc, NewMailReceiver("", s))
 	}
@@ -106,9 +152,42 @@ func (m *MailSender) AddCcs(Ccs []string) *MailSender {
 	return m
 }
 
+func (m *MailSender) AddMailCc(Cc MailReceiver) *MailSender {
+	cc := m.Cc
+	if cc == nil {
+		cc = make([]MailReceiver, 0, 1)
+	}
+	cc = append(cc, Cc)
+	m.Cc = cc
+	return m
+}
+
+func (m *MailSender) AddMailCcs(Ccs []MailReceiver) *MailSender {
+	cc := m.Cc
+	if cc == nil {
+		cc = make([]MailReceiver, 0, 1)
+	}
+	cc = append(cc, Ccs...)
+	m.Cc = cc
+	return m
+}
+
 func (m *MailSender) AddMail(message MailMessage) *MailSender {
 	mails := m.Mails
+	if mails == nil {
+		mails = make([]MailMessage, 0, 1)
+	}
 	mails = append(mails, message)
+	m.Mails = mails
+	return m
+}
+
+func (m *MailSender) AddMails(messages []MailMessage) *MailSender {
+	mails := m.Mails
+	if mails == nil {
+		mails = make([]MailMessage, 0, 1)
+	}
+	mails = append(mails, messages...)
 	m.Mails = mails
 	return m
 }
